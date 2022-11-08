@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Creature : MonoBehaviour
+public class Agent : MonoBehaviour
 {
     public int id;
     private NeuralNetwork brain;
@@ -16,7 +16,7 @@ public class Creature : MonoBehaviour
     public UnityEvent<int> onGoalReached = new UnityEvent<int>();
     public UnityEvent<int> onFailed = new UnityEvent<int>();
 
-    public void InitializeCreature()
+    public void InitializeAgent()
     {
         if (isInitialized) return;
 
@@ -24,12 +24,12 @@ public class Creature : MonoBehaviour
         isInitialized = true;
     }
 
-    public void StartCreature()
+    public void StartAgent()
     {
         isSimulated = true;
     }
 
-    public void StopCreature()
+    public void StopAgent()
     {
         isSimulated = false;
     }
@@ -40,14 +40,14 @@ public class Creature : MonoBehaviour
         GotResultFromBrain(brain.ProcessInput(inputSignals));
     }
 
-    //Get creature chromosome
+    //Get agent chromosome
     public float[] GetBrainData()
     {
         if (!isInitialized) return null;
         return brain.GetGeneSequence();
     }
 
-    //Set creature's chromosome
+    //Set agent's chromosome
     public void SetBrainData(float[] gene)
     {
         if (!isInitialized) return;

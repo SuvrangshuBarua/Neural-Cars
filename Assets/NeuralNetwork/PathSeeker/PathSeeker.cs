@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathFinder : Creature
+public class PathSeeker : Agent
 {
     public Transform midEye, midLeftEye, midRightEye, leftEye, rightEye;
     public float range;
 
-    [Header("Settings")]
+    [Header("PathSeeker Settings")]
     public float moveSpeed = 0;
     public float steeringSpeed = 0;
 
@@ -35,4 +35,11 @@ public class PathFinder : Creature
     {
         transform.position += transform.rotation * transform.up * (Time.fixedDeltaTime * moveSpeed);
     }
+
+    protected override void GotResultFromBrain(float[] output)
+    {
+        float turn = output[0]* 2 - 1;
+        transform.Rotate(Vector3.forward * turn * steeringSpeed * Time.fixedDeltaTime);
+    }
+
 }
