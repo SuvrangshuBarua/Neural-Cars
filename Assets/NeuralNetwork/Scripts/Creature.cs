@@ -8,7 +8,7 @@ public class Creature : MonoBehaviour
     public int id;
     private NeuralNetwork brain;
     private bool isInitialized;
-    private bool isSimulated;
+    protected bool isSimulated;
 
     [SerializeField]
     private int inputs, hiddenLayers, outputs;
