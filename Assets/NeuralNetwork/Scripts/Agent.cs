@@ -8,6 +8,7 @@ public class Agent : MonoBehaviour
     public int id;
     private NeuralNetwork brain;
     private bool isInitialized;
+    [SerializeField]
     protected bool isSimulated;
 
     [SerializeField]

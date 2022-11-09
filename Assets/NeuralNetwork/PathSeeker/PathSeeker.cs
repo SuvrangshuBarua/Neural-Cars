@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class PathSeeker : Agent
 {
-    public Transform midEye, midLeftEye, midRightEye, leftEye, rightEye;
+    public Transform midEye;
+    public Transform midLeftEye;
+    public Transform midRightEye;
+    public Transform leftEye;
+    public Transform rightEye;
     public float range;
 
     [Header("PathSeeker Settings")]
@@ -13,6 +17,12 @@ public class PathSeeker : Agent
 
     private float[] inputs = new float[5];
 
+    public LayerMask obstacleLayer;
+    public LayerMask goalLayer;
+    private void Start()
+    {
+        StartAgent();
+    }
     private void FixedUpdate()
     {
         if (!isSimulated) return;
@@ -28,12 +38,23 @@ public class PathSeeker : Agent
         inputs[4] = Physics2D.Raycast(rightEye.position, rightEye.transform.up, range).distance;
         inputs[4] = inputs[4] == 0 ? range : inputs[4];
 
+        ShowRays();
+
         SendInputToBrain(inputs);
     }
 
+    private void ShowRays()
+    {
+        Debug.DrawRay(leftEye.position, leftEye.transform.up * range, Color.green);
+        Debug.DrawRay(midLeftEye.position, midLeftEye.transform.up * range, Color.green);
+        Debug.DrawRay(midEye.position, midEye.transform.up * range, Color.green);
+        Debug.DrawRay(midRightEye.position, midRightEye.transform.up * range, Color.green);
+        Debug.DrawRay(rightEye.position, rightEye.transform.up * range, Color.green);
+    }
     private void Move()
     {
         transform.position += transform.rotation * transform.up * (Time.fixedDeltaTime * moveSpeed);
+        
     }
 
     protected override void GotResultFromBrain(float[] output)
@@ -41,5 +62,25 @@ public class PathSeeker : Agent
         float turn = output[0]* 2 - 1;
         transform.Rotate(Vector3.forward * turn * steeringSpeed * Time.fixedDeltaTime);
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!isSimulated) return;
+        int collidedObjectLayer = 1 << collision.gameObject.layer;
+        if(collidedObjectLayer == obstacleLayer)
+        {
+            StopAgent();
+            OnFailed();
+            /*Debug.DrawRay(leftEye.position, leftEye.transform.up * Vector2.Distance(leftEye.transform.position, collision.GetContact(0).point), Color.red);
+            Debug.DrawRay(midLeftEye.position, midLeftEye.transform.up * Vector2.Distance(leftEye.transform.position, collision.GetContact(0).point), Color.red);
+            Debug.DrawRay(midEye.position, midEye.transform.up * Vector2.Distance(leftEye.transform.position, collision.GetContact(0).point), Color.red);
+            Debug.DrawRay(midRightEye.position, midRightEye.transform.up * Vector2.Distance(leftEye.transform.position, collision.GetContact(0).point), Color.red);
+            Debug.DrawRay(rightEye.position, rightEye.transform.up * Vector2.Distance(leftEye.transform.position, collision.GetContact(0).point), Color.red);*/
+            return;
+        }
+        if(collidedObjectLayer == goalLayer)
+        {
+            StopAgent();
+            GoalReached();
+        }
+    }
 }
