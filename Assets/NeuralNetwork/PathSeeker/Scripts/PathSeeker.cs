@@ -53,7 +53,7 @@ public class PathSeeker : Agent
     }
     private void Move()
     {
-        transform.position += transform.rotation * transform.up * (Time.fixedDeltaTime * moveSpeed);
+        transform.position += transform.rotation * transform.right * (Time.fixedDeltaTime * moveSpeed);
         
     }
 

@@ -12,11 +12,37 @@ public class AgentManager : MonoBehaviour
     private bool _isSimulated;
     public int numberOfAgentsAlive = 0;
 
+    [SerializeField]
+    private Vector3 rotationInitials;
+
     public float framePassed = 0;
 
+    private void Start()
+    {
+        AgentSimulation();
+    }
     private void Update()
     {
         if (_isSimulated)
             framePassed += Time.deltaTime;
     }
+
+
+
+    private void AgentSimulation()
+    {
+        agents = new Agent[numberOfAgents];
+        for (int i = 0; i < numberOfAgents; i++)
+        {
+            GameObject car = Instantiate(agentPrefab.gameObject,transform.position, Quaternion.Euler(rotationInitials), transform);
+            agents[i] = car.GetComponent<Agent>();
+            agents[i].StartAgent();
+        }
+        
+
+    }
+
+
+
+
 }
