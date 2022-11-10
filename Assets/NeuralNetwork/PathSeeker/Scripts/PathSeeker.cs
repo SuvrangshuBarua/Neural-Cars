@@ -27,6 +27,7 @@ public class PathSeeker : Agent
     {
         if (!isSimulated) return;
         Move();
+
         inputs[0] = Physics2D.Raycast(leftEye.position, leftEye.transform.up, range).distance;
         inputs[0] = inputs[0] == 0 ? range : inputs[0];
         inputs[1] = Physics2D.Raycast(midLeftEye.position, midLeftEye.transform.up, range).distance;
@@ -53,14 +54,15 @@ public class PathSeeker : Agent
     }
     private void Move()
     {
-        transform.position += transform.rotation * transform.right * (Time.fixedDeltaTime * moveSpeed);
+        transform.position += (transform.rotation * Vector2.right * (Time.fixedDeltaTime * moveSpeed));
         
     }
 
     protected override void GotResultFromBrain(float[] output)
     {
-        float turn = output[0]* 2 - 1;
-        transform.Rotate(Vector3.forward * turn * steeringSpeed * Time.fixedDeltaTime);
+        
+        //float turn = output[0]* 2 - 1;
+        //transform.Rotate(Vector3.forward * turn * steeringSpeed * Time.fixedDeltaTime);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

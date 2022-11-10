@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3077371794585950153}
   - component: {fileID: 3077371794585950155}
   - component: {fileID: 3077371794585950154}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,14 +112,14 @@ MonoBehaviour:
   leftEye: {fileID: 3077371795142363261}
   rightEye: {fileID: 3077371795349040446}
   range: 20
-  moveSpeed: 5
-  steeringSpeed: 0
+  moveSpeed: 10
+  steeringSpeed: 2
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
   goalLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!1 &3077371794650338739
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ public class Agent : MonoBehaviour
 
     public UnityEvent<int> onGoalReached = new UnityEvent<int>();
     public UnityEvent<int> onFailed = new UnityEvent<int>();
+    public UnityAction<float[]> getData;
 
     public void InitializeAgent()
     {
