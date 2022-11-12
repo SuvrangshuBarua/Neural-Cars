@@ -97,9 +97,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   isSimulated: 0
-  inputs: 0
-  hiddenLayers: 0
-  outputs: 0
+  inputs: 5
+  hiddenLayers: 7
+  outputs: 2
   onGoalReached:
     m_PersistentCalls:
       m_Calls: []
@@ -111,9 +111,9 @@ MonoBehaviour:
   midRightEye: {fileID: 3077371795138336493}
   leftEye: {fileID: 3077371795142363261}
   rightEye: {fileID: 3077371795349040446}
-  range: 20
-  moveSpeed: 10
-  steeringSpeed: 2
+  range: 10
+  moveSpeed: 5
+  steeringSpeed: 45
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256

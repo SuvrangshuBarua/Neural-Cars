@@ -11,6 +11,7 @@ public class AgentManager : MonoBehaviour
     public float[] agentScores;
     private bool _isSimulated;
     public int numberOfAgentActive = 0;
+    public float evolutionThreshold = 100f;
 
     [SerializeField]
     private Vector3 rotationInitials;
@@ -20,12 +21,24 @@ public class AgentManager : MonoBehaviour
     private void Update()
     {
         if (_isSimulated)
-            framePassed += Time.deltaTime;
+        {
+            if(framePassed < evolutionThreshold)
+            {
+                framePassed += Time.deltaTime;
+            }
+            else
+            {
+                _isSimulated = false;
+                AllAgentsDeactivated();
+            }
+        }
+            
     }
 
     private void Start()
     {
         GenerateWorld();
+        Time.timeScale = Time.timeScale * 10;
     }
 
     private void GenerateWorld()
@@ -37,15 +50,17 @@ public class AgentManager : MonoBehaviour
 
     private void SimulateAllAgents()
     {
+        Debug.Log("Simulated All Agents");
         for (int i = 0; i < agentScores.Length; i++)
         {
             agentScores[i] = 0;
         }
 
-        foreach (Agent creature in agents)
+        foreach (Agent agent in agents)
         {
-            creature.transform.SetPositionAndRotation(startPoint.position, startPoint.rotation);//move to start point
-            creature.InitializeAgent();
+            agent.transform.SetPositionAndRotation(startPoint.position, startPoint.rotation);//move to start point
+            agent.InitializeAgent();
+            agent.StartAgent();
         }
 
         _isSimulated = true;
@@ -62,6 +77,7 @@ public class AgentManager : MonoBehaviour
             agent.onGoalReached.AddListener(OnGoalReached);
             agent.onFailed.AddListener(OnFailed);
             agents[i] = agent;
+            
         }
     }
 
@@ -80,7 +96,7 @@ public class AgentManager : MonoBehaviour
     private void OnFailed(int id)
     {
         numberOfAgentActive--;
-        agentScores[id] = framePassed;//when failed, creature will get score equal to time they survived.
+        agentScores[id] = agents[id].transform.position.magnitude;//when failed, creature will get score equal to time they survived.
 
         //start new generation if all dead
         if (numberOfAgentActive <= 0)
@@ -104,12 +120,15 @@ public class AgentManager : MonoBehaviour
         }
         //get offspring genes
         float[][] offsprings =
-          GeneticAlgorithm.GetOffsprings(parents, agentScores, new[] {0.4f, 0.2f, 0.2f, 0.1f, 0.1f}, .01f, numberOfAgents);
+          GeneticAlgorithm.GetOffsprings(parents, agentScores, new[] {0.4f, 0.2f, 0.2f, 0.1f, 0.1f}, .1f, numberOfAgents);
         //create ofsprings
         for (int i = 0; i < numberOfAgents; i++)
         {
             agents[i].SetBrainData(offsprings[i]);
+            //agents[i].onGoalReached.RemoveListener(OnGoalReached);
+            //agents[i].onFailed.RemoveListener(OnFailed);
         }
+
         //run offsprings
         SimulateAllAgents();
     }

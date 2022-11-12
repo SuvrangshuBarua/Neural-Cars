@@ -11,22 +11,22 @@ public class PathSeeker : Agent
     public Transform rightEye;
     public float range;
 
+
     [Header("PathSeeker Settings")]
     public float moveSpeed = 0;
     public float steeringSpeed = 0;
+
 
     private float[] inputs = new float[5];
 
     public LayerMask obstacleLayer;
     public LayerMask goalLayer;
-    private void Start()
-    {
-        StartAgent();
-    }
+
     private void FixedUpdate()
     {
         if (!isSimulated) return;
         Move();
+
 
         inputs[0] = Physics2D.Raycast(leftEye.position, leftEye.transform.up, range).distance;
         inputs[0] = inputs[0] == 0 ? range : inputs[0];
@@ -54,15 +54,16 @@ public class PathSeeker : Agent
     }
     private void Move()
     {
-        transform.position += (transform.rotation * Vector2.right * (Time.fixedDeltaTime * moveSpeed));
-        
+        transform.position += (transform.rotation * Vector2.right * (Time.fixedDeltaTime * moveSpeed ));
+
     }
 
     protected override void GotResultFromBrain(float[] output)
     {
         
-        //float turn = output[0]* 2 - 1;
-        //transform.Rotate(Vector3.forward * turn * steeringSpeed * Time.fixedDeltaTime);
+        float turn = output[0]* 2 - 1;
+        transform.Rotate(Vector3.forward * turn * steeringSpeed * Time.fixedDeltaTime);
+        //transform.position += (transform.rotation * Vector2.right * (Time.fixedDeltaTime * moveSpeed * speedFactor));
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

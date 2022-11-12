@@ -39,6 +39,7 @@ public class Agent : MonoBehaviour
     protected void SendInputToBrain(float[] inputSignals)
     {
         if (!isInitialized) return;
+
         GotResultFromBrain(brain.ProcessInput(inputSignals));
     }
 

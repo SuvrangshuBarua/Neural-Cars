@@ -935,11 +935,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 156645714}
-  numberOfAgents: 10
+  numberOfAgents: 50
   agents: []
   agentPrefab: {fileID: 3077371794585950154, guid: 7f911b2e6e96d3c44aa97732ef48996f, type: 3}
   agentScores: []
   numberOfAgentActive: 0
+  evolutionThreshold: 100
   rotationInitials: {x: 0, y: 0, z: 0}
   framePassed: 0
 --- !u!4 &156645714
